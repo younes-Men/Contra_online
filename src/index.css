@@ -1,0 +1,8 @@
+@import "tailwindcss";
+
+.signature-canvas {
+  cursor: crosshair;
+  touch-action: none;
+}
+
+
