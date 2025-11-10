@@ -113,19 +113,8 @@ function RentalContract() {
       const fileName = `contrat-location-${formData.reservationNumber}.pdf`;
       pdf.save(fileName);
 
-      setTimeout(() => {
-        const phoneNumber = "0644553500";
-        const message = encodeURIComponent(
-          `Nouveau contrat de location\n` +
-            `Réservation #${formData.reservationNumber}\n` +
-            `Locataire: ${formData.locataire}\n` +
-            `Marque de voiture: ${formData.marqueVoiture}\n` +
-            `Période: ${formData.dateDe} au ${formData.dateA}\n\n` +
-            `Veuillez joindre le PDF téléchargé.`
-        );
-        const whatsappUrl = `https://wa.me/${phoneNumber}?text=${message}`;
-        window.open(whatsappUrl, "_blank");
-      }, 500);
+      // Le bloc setTimeout avec la fonctionnalité WhatsApp a été supprimé.
+      // Le code s'arrête ici après la sauvegarde du PDF.
     } catch (error) {
       console.error("Erreur lors de la génération du PDF:", error);
       alert("Erreur lors de la génération du PDF");
@@ -865,8 +854,8 @@ function RentalContract() {
                     {/* ATTENTION: L'input ci-dessous utilise "marqueVoiture" (français) au lieu de "marqueVoitureAr" */}
                     <input
                       type="text"
-                      name="marqueVoiture"
-                      value={formData.marqueVoiture}
+                      name="marqueVoitureAr"
+                      value={formData.marqueVoitureAr}
                       onChange={handleInputChange}
                       style={{
                         border: "none",
@@ -877,6 +866,8 @@ function RentalContract() {
                         background: "transparent",
                         outline: "none",
                       }}
+                      dir="rtl"
+                      lang="ar"
                     />
                   </div>
                 </div>
