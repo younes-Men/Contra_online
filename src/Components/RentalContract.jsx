@@ -113,8 +113,8 @@ function RentalContract() {
       const fileName = `contrat-location-${formData.reservationNumber}.pdf`;
       pdf.save(fileName);
 
-      // Le bloc setTimeout avec la fonctionnalité WhatsApp a été supprimé.
-      // Le code s'arrête ici après la sauvegarde du PDF.
+      // AUCUNE REDIRECTION WHATSAPP ICI. Le code est propre.
+
     } catch (error) {
       console.error("Erreur lors de la génération du PDF:", error);
       alert("Erreur lors de la génération du PDF");
