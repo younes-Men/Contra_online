@@ -26,11 +26,13 @@ function RentalContract() {
     permisConduitAr: "",
     delivreLeAr: "",
     // Autre conducteur - Français
+    autreConducteurNom: "", // <-- Champ ajouté
     autreConducteurAdresse: "",
     autreConducteurCin: "",
     autreConducteurPermis: "",
     autreConducteurDelivreLe: "",
     // Autre conducteur - Arabe (champs séparés)
+    autreConductreurNomAr: "" , // <-- Champ ajouté
     autreConducteurAdresseAr: "",
     autreConducteurCinAr: "",
     autreConducteurPermisAr: "",
@@ -113,8 +115,6 @@ function RentalContract() {
       const fileName = `contrat-location-${formData.reservationNumber}.pdf`;
       pdf.save(fileName);
 
-      // AUCUNE REDIRECTION WHATSAPP ICI. Le code est propre.
-
     } catch (error) {
       console.error("Erreur lors de la génération du PDF:", error);
       alert("Erreur lors de la génération du PDF");
@@ -127,7 +127,7 @@ function RentalContract() {
   return (
     <div className="min-h-screen bg-gray-50 py-4 sm:py-8 px-2 sm:px-4">
       <div className="max-w-6xl mx-auto">
-        {/* Contrat visible avec formulaire intégré */}
+        {/* Contrat visible avec formulaire intégré (Taille non modifiée ici car c'est l'interface utilisateur) */}
         <div
           className="bg-white shadow-lg mb-6"
           style={{
@@ -139,7 +139,7 @@ function RentalContract() {
         >
           {/* Header */}
           <div className="mb-6">
-            {/* Numéro Réservation */}
+            {/* Numéro Réservation (Version visible) */}
             <div
               className="mb-4"
               style={{ display: "flex", justifyContent: "flex-start" }}
@@ -204,7 +204,6 @@ function RentalContract() {
             </div>
 
             {/* NOUVELLE STRUCTURE RESPONSIVE POUR L'ALIGNEMENT DES INFOS ET DES IMAGES */}
-            {/* Les images sont maintenant côte à côte (display: flex) sur mobile, et l'info compagnie est toujours au-dessus */}
             <div
               className="flex flex-col gap-4" // Le conteneur principal est en colonne (mobile et desktop)
               style={{
@@ -244,25 +243,25 @@ function RentalContract() {
                 </p>
                 <div
                   style={{
-                    fontSize: "11px",
+                    fontSize: "13px",
                     textAlign: "center",
                     lineHeight: "1.8",
                     marginTop: "4px",
                   }}
                 >
                   <p style={{ marginBottom: "3px" }}>
-                    Numéro/Whatsapp: **0649491043** ; **0631913770**
+                    Numéro/Whatsapp: 0649491043 ; 0631913770
                   </p>
                   <p style={{ marginBottom: "3px" }}>
-                    Whatsapp: **+44 7960 412207**
+                    Whatsapp: +44 7960 412207
                   </p>
                   <p>
-                    Adresse: **Livraison dans tous les aéroports du Maroc**
+                    Adresse: Livraison dans tous les aéroports du Maroc
                   </p>
                 </div>
               </div>
 
-              {/* 2. Conteneur des Images - CÔTE À CÔTE MÊME SUR MOBILE */}
+              {/* 2. Conteneur des Images - CÔTE À CÔTÉ MÊME SUR MOBILE */}
               <div
                 className="flex items-center justify-between gap-4" // Utilise flex par défaut (row)
                 style={{
@@ -365,7 +364,7 @@ function RentalContract() {
                   }}
                 >
                   <div>
-                    <div style={{ marginBottom: "2px" }}>Locataire</div>
+                    <div style={{ marginBottom: "2px" }}>Nom de Locataire</div>
                     <input
                       type="text"
                       name="locataire"
@@ -423,7 +422,7 @@ function RentalContract() {
                   </div>
                   <div>
                     <div style={{ marginBottom: "2px" }}>
-                      C.I.N ou passeport N
+                      C.I.N ou Num passeport 
                     </div>
                     <input
                       type="text"
@@ -443,7 +442,7 @@ function RentalContract() {
                   </div>
                   <div>
                     <div style={{ marginBottom: "2px" }}>
-                      Permis de conduit N
+                      Num Permis de conduit
                     </div>
                     <input
                       type="text"
@@ -499,6 +498,25 @@ function RentalContract() {
                       fontSize: "10px",
                     }}
                   >
+                    {/* CORRECTION: nom de l'input pour le nom */}
+                    <div> 
+                      <div style={{ marginBottom: "2px" }}>Nom </div>
+                      <input
+                        type="text"
+                        name="autreConducteurNom" // CORRIGÉ
+                        value={formData.autreConducteurNom}
+                        onChange={handleInputChange}
+                        style={{
+                          border: "none",
+                          borderBottom: "1px solid black",
+                          width: "100%",
+                          padding: "2px 0",
+                          fontSize: "10px",
+                          background: "transparent",
+                          outline: "none",
+                        }}
+                      />
+                    </div>
                     <div>
                       <div style={{ marginBottom: "2px" }}>
                         Adresse personnelle
@@ -521,7 +539,7 @@ function RentalContract() {
                     </div>
                     <div>
                       <div style={{ marginBottom: "2px" }}>
-                        C.I.N ou passeport N
+                        C.I.N ou Num passeport
                       </div>
                       <input
                         type="text"
@@ -541,7 +559,7 @@ function RentalContract() {
                     </div>
                     <div>
                       <div style={{ marginBottom: "2px" }}>
-                        Permis de conduit de l'autre conducteur N
+                        Num Permis de conduit 
                       </div>
                       <input
                         type="text"
@@ -626,7 +644,7 @@ function RentalContract() {
                   }}
                 >
                   <div>
-                    <div style={{ marginBottom: "2px" }}>المكتري</div>
+                    <div style={{ marginBottom: "2px" }}>اسم المكتري</div>
                     <input
                       type="text"
                       name="locataireAr"
@@ -707,7 +725,7 @@ function RentalContract() {
                     />
                   </div>
                   <div>
-                    <div style={{ marginBottom: "2px" }}>رخصة السياقة رقم</div>
+                    <div style={{ marginBottom: "2px" }}> رقم رخصة السياقة </div>
                     <input
                       type="text"
                       name="permisConduitAr"
@@ -764,7 +782,29 @@ function RentalContract() {
                       fontSize: "10px",
                     }}
                   >
+                    {/* NOUVEAU/CORRIGÉ: Nom de l'autre conducteur (Arabe) */}
                     <div>
+                      <div style={{ marginBottom: "2px" }}> اسم السائق الآخر</div>
+                      <input
+                        type="text"
+                        name="autreConductreurNomAr" // CORRIGÉ
+                        value={formData.autreConductreurNomAr} // CORRIGÉ
+                        onChange={handleInputChange}
+                        style={{
+                          border: "none",
+                          borderBottom: "1px solid black",
+                          width: "100%",
+                          padding: "2px 0",
+                          fontSize: "10px",
+                          background: "transparent",
+                          outline: "none",
+                        }}
+                        dir="rtl"
+                        lang="ar"
+                      />
+                    </div>
+                    {/* ADRESSE: (Adresse Personnelle de l'autre conducteur) */}
+                    <div> 
                       <div style={{ marginBottom: "2px" }}>العنوان الشخصي</div>
                       <input
                         type="text"
@@ -784,9 +824,10 @@ function RentalContract() {
                         lang="ar"
                       />
                     </div>
+                    {/* FIN de la correction */}
                     <div>
                       <div style={{ marginBottom: "2px" }}>
-                        بطاقة التعريف الوطنية أو جواز السفر رقم
+                        رقم بطاقة الوطنية أو جواز السفر
                       </div>
                       <input
                         type="text"
@@ -1136,12 +1177,14 @@ function RentalContract() {
             minHeight: "297mm",
             padding: "20mm 15mm",
             fontFamily: "Arial, sans-serif",
-            fontSize: "11px",
+            // AUGMENTATION DE LA TAILLE DE BASE (était 11px)
+            fontSize: "16x", 
             lineHeight: "1.4",
           }}
         >
           <div className="w-full" style={{ pageBreakAfter: "avoid" }}>
             <div className="mb-6">
+              {/* *** MODIFICATION : Numéro Réservation (Version PDF - Styles uniformisés) *** */}
               <div
                 className="mb-4"
                 style={{ display: "flex", justifyContent: "flex-start" }}
@@ -1151,35 +1194,47 @@ function RentalContract() {
                     display: "flex",
                     border: "1px solid black",
                     width: "fit-content",
+                    // TAILLE AJOUTÉE POUR UN MEILLEUR RENDU DANS LE PDF
+                    fontSize: "14px", 
                   }}
                 >
                   <div
                     style={{
                       borderRight: "1px solid black",
                       padding: "4px 8px",
-                      fontSize: "12px",
+                      // TAILLE AJUSTÉE (était 12px)
+                      fontSize: "14px", 
                       fontWeight: "bold",
                     }}
                   >
                     Numéro Réservation
                   </div>
+                  {/* Bloc pour afficher la valeur dans le PDF (simule l'input) */}
                   <div
                     style={{
                       padding: "4px 8px",
-                      minWidth: "30px",
-                      fontSize: "12px",
+                      width: "100px",
+                      minHeight: "35px", // ✅ NOUVEAU: Hauteur minimale pour centrage vertical
+                      fontSize: "14px",
                       textAlign: "center",
+                      // Styles pour centrage vertical et horizontal
+                      display: "flex", 
+                      alignItems: "center", // Centrage vertical
+                      justifyContent: "center", // Centrage horizontal
                     }}
                   >
                     {formData.reservationNumber || ""}
                   </div>
                 </div>
               </div>
+              {/* *** FIN DE LA MODIFICATION *** */}
+
 
               <div className="text-center mb-4">
                 <h1
                   style={{
-                    fontSize: "22px",
+                    // TAILLE AJUSTÉE (était 22px)
+                    fontSize: "26px", 
                     fontWeight: "bold",
                     textTransform: "uppercase",
                     marginBottom: "12px",
@@ -1190,50 +1245,18 @@ function RentalContract() {
                 </h1>
               </div>
 
-              <div className="mb-4" style={{ textAlign: "left" }}>
-                <h2
-                  style={{
-                    fontSize: "24px",
-                    fontWeight: "bold",
-                    textDecoration: "underline",
-                    marginBottom: "6px",
-                    textAlign: "center",
-                  }}
-                >
-                  MED CAR LUXE
-                </h2>
-                <p
-                  style={{
-                    fontSize: "14px",
-                    marginBottom: "8px",
-                    textAlign: "center",
-                  }}
-                >
-                  Location De Voiture
-                </p>
-                <div
-                  style={{
-                    fontSize: "13px",
-                    textAlign: "left",
-                    lineHeight: "1.8",
-                    marginTop: "4px",
-                  }}
-                >
-                  <p style={{ marginBottom: "3px" }}>
-                    Numéro/Whatsapp: 0649491043 ; 0631913770
-                  </p>
-                  <p style={{ marginBottom: "3px" }}>
-                    Whatsapp: +44 7960 412207
-                  </p>
-                  <p>Adresse: Livraison dans tous les aéroports du Maroc</p>
-                </div>
-              </div>
-
-              {/* Car Images in PDF Preview - REMPLACÉ PAR LES IMAGES FIXES */}
+              {/* NOUVELLE STRUCTURE POUR LE PDF - Header (Alignement Horizontal) */}
               <div
-                className="flex justify-center gap-8 mb-6"
-                style={{ marginTop: "10px" }}
+                className="flex items-start justify-between gap-4"
+                style={{
+                  width: "100%",
+                  marginTop: "10px",
+                  display: "flex", /* Assure le flex pour html2canvas */
+                  justifyContent: "space-between", /* Pour espacer les trois colonnes */
+                  alignItems: "flex-start",
+                }}
               >
+                {/* Image 1 - Gauche */}
                 <div
                   style={{
                     width: "120px",
@@ -1243,9 +1266,8 @@ function RentalContract() {
                     display: "flex",
                     alignItems: "center",
                     justifyContent: "center",
-                    fontSize: "9px",
-                    color: "#999",
                     boxShadow: "0 2px 4px rgba(0,0,0,0.1)",
+                    fontSize: "11px", 
                     overflow: "hidden",
                   }}
                 >
@@ -1259,6 +1281,57 @@ function RentalContract() {
                     }}
                   />
                 </div>
+
+                {/* Company Info - Centre */}
+                <div
+                  className="mb-4"
+                  style={{
+                    textAlign: "center",
+                    flexGrow: 1,
+                    maxWidth: "500px",
+                    margin: "0 20px",
+                    width: "auto",
+                  }}
+                >
+                  <h2
+                    style={{
+                      fontSize: "28px", 
+                      fontWeight: "bold",
+                      textDecoration: "underline",
+                      marginBottom: "6px",
+                      textAlign: "center",
+                    }}
+                  >
+                    MED CAR LUXE
+                  </h2>
+                  <p
+                    style={{
+                      fontSize: "16px", 
+                      marginBottom: "8px",
+                      textAlign: "center",
+                    }}
+                  >
+                    Location De Voiture
+                  </p>
+                  <div
+                    style={{
+                      fontSize: "15px", 
+                      textAlign: "center", // ALIGNEMENT AU CENTRE POUR LE PDF
+                      lineHeight: "1.8",
+                      marginTop: "4px",
+                    }}
+                  >
+                    <p style={{ marginBottom: "3px" }}>
+                      Numéro/Whatsapp: 0649491043 ; 0631913770
+                    </p>
+                    <p style={{ marginBottom: "3px" }}>
+                      Whatsapp: +44 7960 412207
+                    </p>
+                    <p>Adresse: Livraison dans tous les aéroports du Maroc</p>
+                  </div>
+                </div>
+
+                {/* Image 2 - Droite */}
                 <div
                   style={{
                     width: "120px",
@@ -1268,9 +1341,9 @@ function RentalContract() {
                     display: "flex",
                     alignItems: "center",
                     justifyContent: "center",
-                    fontSize: "9px",
-                    color: "#999",
                     boxShadow: "0 2px 4px rgba(0,0,0,0.1)",
+                    fontSize: "11px",
+                    color: "#999", 
                     overflow: "hidden",
                   }}
                 >
@@ -1285,6 +1358,8 @@ function RentalContract() {
                   />
                 </div>
               </div>
+              {/* FIN NOUVELLE STRUCTURE POUR LE PDF */}
+
             </div>
 
             <div
@@ -1302,35 +1377,30 @@ function RentalContract() {
                     textAlign: "center",
                     fontWeight: "bold",
                     marginBottom: "12px",
-                    fontSize: "13px",
+                    // TAILLE AJUSTÉE (était 13px)
+                    fontSize: "15px",
                   }}
                 >
                   Contrat de location
                 </h3>
 
                 <div style={{ marginBottom: "16px" }}>
-                  <h4
-                    style={{
-                      fontWeight: "bold",
-                      marginBottom: "8px",
-                      fontSize: "13px",
-                    }}
-                  >
-                    Locataire
-                  </h4>
+                  
                   <div
                     style={{
                       display: "flex",
                       flexDirection: "column",
                       gap: "8px",
-                      fontSize: "12px",
+                      // TAILLE AJUSTÉE (était 12px)
+                      fontSize: "14px",
                     }}
                   >
                     <div>
                       <div
                         style={{
                           marginBottom: "2px",
-                          fontSize: "12px",
+                          // TAILLE AJUSTÉE (était 12px)
+                          fontSize: "14px",
                           fontWeight: "bold",
                         }}
                       >
@@ -1342,7 +1412,8 @@ function RentalContract() {
                           minHeight: "25px", // CORRECTION
                           paddingTop: "0", // CORRECTION
                           paddingBottom: "3px", // Ajouté
-                          fontSize: "12px",
+                          // TAILLE AJUSTÉE (était 12px)
+                          fontSize: "14px",
                           wordWrap: "break-word",
                           wordBreak: "break-word",
                         }}
@@ -1354,7 +1425,8 @@ function RentalContract() {
                       <div
                         style={{
                           marginBottom: "2px",
-                          fontSize: "12px",
+                          // TAILLE AJUSTÉE (était 12px)
+                          fontSize: "14px",
                           fontWeight: "bold",
                         }}
                       >
@@ -1366,7 +1438,8 @@ function RentalContract() {
                           minHeight: "25px", // CORRECTION
                           paddingTop: "0", // CORRECTION
                           paddingBottom: "3px", // Ajouté
-                          fontSize: "12px",
+                          // TAILLE AJUSTÉE (était 12px)
+                          fontSize: "14px",
                           wordWrap: "break-word",
                           wordBreak: "break-word",
                         }}
@@ -1378,7 +1451,8 @@ function RentalContract() {
                       <div
                         style={{
                           marginBottom: "2px",
-                          fontSize: "12px",
+                          // TAILLE AJUSTÉE (était 12px)
+                          fontSize: "14px",
                           fontWeight: "bold",
                         }}
                       >
@@ -1390,7 +1464,8 @@ function RentalContract() {
                           minHeight: "25px", // CORRECTION
                           paddingTop: "0", // CORRECTION
                           paddingBottom: "3px", // Ajouté
-                          fontSize: "12px",
+                          // TAILLE AJUSTÉE (était 12px)
+                          fontSize: "14px",
                         }}
                       >
                         {formData.telPersonnel || ""}
@@ -1400,7 +1475,8 @@ function RentalContract() {
                       <div
                         style={{
                           marginBottom: "2px",
-                          fontSize: "12px",
+                          // TAILLE AJUSTÉE (était 12px)
+                          fontSize: "14px",
                           fontWeight: "bold",
                         }}
                       >
@@ -1412,7 +1488,8 @@ function RentalContract() {
                           minHeight: "25px", // CORRECTION
                           paddingTop: "0", // CORRECTION
                           paddingBottom: "3px", // Ajouté
-                          fontSize: "12px",
+                          // TAILLE AJUSTÉE (était 12px)
+                          fontSize: "14px",
                         }}
                       >
                         {formData.cinPasseport || ""}
@@ -1422,7 +1499,8 @@ function RentalContract() {
                       <div
                         style={{
                           marginBottom: "2px",
-                          fontSize: "12px",
+                          // TAILLE AJUSTÉE (était 12px)
+                          fontSize: "14px",
                           fontWeight: "bold",
                         }}
                       >
@@ -1434,7 +1512,8 @@ function RentalContract() {
                           minHeight: "25px", // CORRECTION
                           paddingTop: "0", // CORRECTION
                           paddingBottom: "3px", // Ajouté
-                          fontSize: "12px",
+                          // TAILLE AJUSTÉE (était 12px)
+                          fontSize: "14px",
                         }}
                       >
                         {formData.permisConduit || ""}
@@ -1444,7 +1523,8 @@ function RentalContract() {
                       <div
                         style={{
                           marginBottom: "2px",
-                          fontSize: "12px",
+                          // TAILLE AJUSTÉE (était 12px)
+                          fontSize: "14px",
                           fontWeight: "bold",
                         }}
                       >
@@ -1456,7 +1536,8 @@ function RentalContract() {
                           minHeight: "25px", // CORRECTION
                           paddingTop: "0", // CORRECTION
                           paddingBottom: "3px", // Ajouté
-                          fontSize: "12px",
+                          // TAILLE AJUSTÉE (était 12px)
+                          fontSize: "14px",
                         }}
                       >
                         {formData.delivreLe || ""}
@@ -1469,7 +1550,8 @@ function RentalContract() {
                       style={{
                         fontWeight: "bold",
                         marginBottom: "8px",
-                        fontSize: "13px",
+                        // TAILLE AJUSTÉE (était 13px)
+                        fontSize: "15px",
                       }}
                     >
                       Autre conducteur
@@ -1479,14 +1561,44 @@ function RentalContract() {
                         display: "flex",
                         flexDirection: "column",
                         gap: "8px",
-                        fontSize: "12px",
+                        // TAILLE AJUSTÉE (était 12px)
+                        fontSize: "14px",
                       }}
                     >
+                      {/* NOUVEAU: Nom de l'autre conducteur (Français) */}
+                      <div> 
+                        <div
+                          style={{
+                            marginBottom: "2px",
+                            // TAILLE AJUSTÉE (était 12px)
+                            fontSize: "14px",
+                            fontWeight: "bold",
+                          }}
+                        >
+                          Nom
+                        </div>
+                        <div
+                          style={{
+                            borderBottom: "1px solid black",
+                            minHeight: "25px", // CORRECTION
+                            paddingTop: "0", // CORRECTION
+                            paddingBottom: "3px", // Ajouté
+                            // TAILLE AJUSTÉE (était 12px)
+                            fontSize: "14px",
+                            wordWrap: "break-word",
+                            wordBreak: "break-word",
+                          }}
+                        >
+                          {formData.autreConducteurNom || ""}
+                        </div>
+                      </div>
+                      {/* FIN NOUVEAU */}
                       <div>
                         <div
                           style={{
                             marginBottom: "2px",
-                            fontSize: "12px",
+                            // TAILLE AJUSTÉE (était 12px)
+                            fontSize: "14px",
                             fontWeight: "bold",
                           }}
                         >
@@ -1498,7 +1610,8 @@ function RentalContract() {
                             minHeight: "25px", // CORRECTION
                             paddingTop: "0", // CORRECTION
                             paddingBottom: "3px", // Ajouté
-                            fontSize: "12px",
+                            // TAILLE AJUSTÉE (était 12px)
+                            fontSize: "14px",
                             wordWrap: "break-word",
                             wordBreak: "break-word",
                           }}
@@ -1510,7 +1623,8 @@ function RentalContract() {
                         <div
                           style={{
                             marginBottom: "2px",
-                            fontSize: "12px",
+                            // TAILLE AJUSTÉE (était 12px)
+                            fontSize: "14px",
                             fontWeight: "bold",
                           }}
                         >
@@ -1522,7 +1636,8 @@ function RentalContract() {
                             minHeight: "25px", // CORRECTION
                             paddingTop: "0", // CORRECTION
                             paddingBottom: "3px", // Ajouté
-                            fontSize: "12px",
+                            // TAILLE AJUSTÉE (était 12px)
+                            fontSize: "14px",
                           }}
                         >
                           {formData.autreConducteurCin || ""}
@@ -1532,7 +1647,8 @@ function RentalContract() {
                         <div
                           style={{
                             marginBottom: "2px",
-                            fontSize: "12px",
+                            // TAILLE AJUSTÉE (était 12px)
+                            fontSize: "14px",
                             fontWeight: "bold",
                           }}
                         >
@@ -1544,7 +1660,8 @@ function RentalContract() {
                             minHeight: "25px", // CORRECTION
                             paddingTop: "0", // CORRECTION
                             paddingBottom: "3px", // Ajouté
-                            fontSize: "12px",
+                            // TAILLE AJUSTÉE (était 12px)
+                            fontSize: "14px",
                           }}
                         >
                           {formData.autreConducteurPermis || ""}
@@ -1554,7 +1671,8 @@ function RentalContract() {
                         <div
                           style={{
                             marginBottom: "2px",
-                            fontSize: "12px",
+                            // TAILLE AJUSTÉE (était 12px)
+                            fontSize: "14px",
                             fontWeight: "bold",
                           }}
                         >
@@ -1566,7 +1684,8 @@ function RentalContract() {
                             minHeight: "25px", // CORRECTION
                             paddingTop: "0", // CORRECTION
                             paddingBottom: "3px", // Ajouté
-                            fontSize: "12px",
+                            // TAILLE AJUSTÉE (était 12px)
+                            fontSize: "14px",
                           }}
                         >
                           {formData.autreConducteurDelivreLe || ""}
@@ -1581,7 +1700,8 @@ function RentalContract() {
                     <div
                       style={{
                         marginBottom: "2px",
-                        fontSize: "12px",
+                        // TAILLE AJUSTÉE (était 12px)
+                        fontSize: "14px",
                         fontWeight: "bold",
                       }}
                     >
@@ -1593,7 +1713,8 @@ function RentalContract() {
                         minHeight: "25px", // CORRECTION
                         paddingTop: "0", // CORRECTION
                         paddingBottom: "3px", // Ajouté
-                        fontSize: "12px",
+                        // TAILLE AJUSTÉE (était 12px)
+                        fontSize: "14px",
                       }}
                     >
                       {formData.marqueVoiture || ""}
@@ -1608,35 +1729,30 @@ function RentalContract() {
                     textAlign: "center",
                     fontWeight: "bold",
                     marginBottom: "12px",
-                    fontSize: "13px",
+                    // TAILLE AJUSTÉE (était 13px)
+                    fontSize: "15px",
                   }}
                 >
                   عقد الكراء
                 </h3>
 
                 <div style={{ marginBottom: "16px" }}>
-                  <h4
-                    style={{
-                      fontWeight: "bold",
-                      marginBottom: "8px",
-                      fontSize: "13px",
-                    }}
-                  >
-                    المكتري
-                  </h4>
+                  
                   <div
                     style={{
                       display: "flex",
                       flexDirection: "column",
                       gap: "8px",
-                      fontSize: "12px",
+                      // TAILLE AJUSTÉE (était 12px)
+                      fontSize: "14px",
                     }}
                   >
                     <div>
                       <div
                         style={{
                           marginBottom: "2px",
-                          fontSize: "12px",
+                          // TAILLE AJUSTÉE (était 12px)
+                          fontSize: "14px",
                           fontWeight: "bold",
                         }}
                       >
@@ -1648,7 +1764,8 @@ function RentalContract() {
                           minHeight: "25px", // CORRECTION
                           paddingTop: "0", // CORRECTION
                           paddingBottom: "3px", // Ajouté
-                          fontSize: "12px",
+                          // TAILLE AJUSTÉE (était 12px)
+                          fontSize: "14px",
                           wordWrap: "break-word",
                           wordBreak: "break-word",
                         }}
@@ -1660,7 +1777,8 @@ function RentalContract() {
                       <div
                         style={{
                           marginBottom: "2px",
-                          fontSize: "12px",
+                          // TAILLE AJUSTÉE (était 12px)
+                          fontSize: "14px",
                           fontWeight: "bold",
                         }}
                       >
@@ -1672,7 +1790,8 @@ function RentalContract() {
                           minHeight: "25px", // CORRECTION
                           paddingTop: "0", // CORRECTION
                           paddingBottom: "3px", // Ajouté
-                          fontSize: "12px",
+                          // TAILLE AJUSTÉE (était 12px)
+                          fontSize: "14px",
                           wordWrap: "break-word",
                           wordBreak: "break-word",
                         }}
@@ -1684,7 +1803,8 @@ function RentalContract() {
                       <div
                         style={{
                           marginBottom: "2px",
-                          fontSize: "12px",
+                          // TAILLE AJUSTÉE (était 12px)
+                          fontSize: "14px",
                           fontWeight: "bold",
                         }}
                       >
@@ -1696,7 +1816,8 @@ function RentalContract() {
                           minHeight: "25px", // CORRECTION
                           paddingTop: "0", // CORRECTION
                           paddingBottom: "3px", // Ajouté
-                          fontSize: "12px",
+                          // TAILLE AJUSTÉE (était 12px)
+                          fontSize: "14px",
                         }}
                       >
                         {formData.telPersonnelAr || ""}
@@ -1706,11 +1827,12 @@ function RentalContract() {
                       <div
                         style={{
                           marginBottom: "2px",
-                          fontSize: "12px",
+                          // TAILLE AJUSTÉE (était 12px)
+                          fontSize: "14px",
                           fontWeight: "bold",
                         }}
                       >
-                        بطاقة التعريف الوطنية أو جواز السفر رقم
+                        رقم بطاقة الوطنية أو جواز السفر
                       </div>
                       <div
                         style={{
@@ -1718,7 +1840,8 @@ function RentalContract() {
                           minHeight: "25px", // CORRECTION
                           paddingTop: "0", // CORRECTION
                           paddingBottom: "3px", // Ajouté
-                          fontSize: "12px",
+                          // TAILLE AJUSTÉE (était 12px)
+                          fontSize: "14px",
                         }}
                       >
                         {formData.cinPasseportAr || ""}
@@ -1728,11 +1851,12 @@ function RentalContract() {
                       <div
                         style={{
                           marginBottom: "2px",
-                          fontSize: "12px",
+                          // TAILLE AJUSTÉE (était 12px)
+                          fontSize: "14px",
                           fontWeight: "bold",
                         }}
                       >
-                        رخصة السياقة رقم
+                        رقم رخصة السياقة
                       </div>
                       <div
                         style={{
@@ -1740,7 +1864,8 @@ function RentalContract() {
                           minHeight: "25px", // CORRECTION
                           paddingTop: "0", // CORRECTION
                           paddingBottom: "3px", // Ajouté
-                          fontSize: "12px",
+                          // TAILLE AJUSTÉE (était 12px)
+                          fontSize: "14px",
                         }}
                       >
                         {formData.permisConduitAr || ""}
@@ -1750,7 +1875,8 @@ function RentalContract() {
                       <div
                         style={{
                           marginBottom: "2px",
-                          fontSize: "12px",
+                          // TAILLE AJUSTÉE (était 12px)
+                          fontSize: "14px",
                           fontWeight: "bold",
                         }}
                       >
@@ -1762,7 +1888,8 @@ function RentalContract() {
                           minHeight: "25px", // CORRECTION
                           paddingTop: "0", // CORRECTION
                           paddingBottom: "3px", // Ajouté
-                          fontSize: "12px",
+                          // TAILLE AJUSTÉE (était 12px)
+                          fontSize: "14px",
                         }}
                       >
                         {formData.delivreLeAr || ""}
@@ -1775,7 +1902,8 @@ function RentalContract() {
                       style={{
                         fontWeight: "bold",
                         marginBottom: "8px",
-                        fontSize: "13px",
+                        // TAILLE AJUSTÉE (était 13px)
+                        fontSize: "15px",
                       }}
                     >
                       سائق أخر
@@ -1785,14 +1913,44 @@ function RentalContract() {
                         display: "flex",
                         flexDirection: "column",
                         gap: "8px",
-                        fontSize: "12px",
+                        // TAILLE AJUSTÉE (était 12px)
+                        fontSize: "14px",
                       }}
                     >
+                      {/* NOUVEAU: Nom de l'autre conducteur (Arabe) */}
                       <div>
                         <div
                           style={{
                             marginBottom: "2px",
-                            fontSize: "12px",
+                            // TAILLE AJUSTÉE (était 12px)
+                            fontSize: "14px",
+                            fontWeight: "bold",
+                          }}
+                        >
+                          اسم السائق الآخر
+                        </div>
+                        <div
+                          style={{
+                            borderBottom: "1px solid black",
+                            minHeight: "25px", // CORRECTION
+                            paddingTop: "0", // CORRECTION
+                            paddingBottom: "3px", // Ajouté
+                            // TAILLE AJUSTÉE (était 12px)
+                            fontSize: "14px",
+                            wordWrap: "break-word",
+                            wordBreak: "break-word",
+                          }}
+                        >
+                          {formData.autreConductreurNomAr || ""}
+                        </div>
+                      </div>
+                      {/* FIN NOUVEAU */}
+                      <div>
+                        <div
+                          style={{
+                            marginBottom: "2px",
+                            // TAILLE AJUSTÉE (était 12px)
+                            fontSize: "14px",
                             fontWeight: "bold",
                           }}
                         >
@@ -1804,7 +1962,8 @@ function RentalContract() {
                             minHeight: "25px", // CORRECTION
                             paddingTop: "0", // CORRECTION
                             paddingBottom: "3px", // Ajouté
-                            fontSize: "12px",
+                            // TAILLE AJUSTÉE (était 12px)
+                            fontSize: "14px",
                             wordWrap: "break-word",
                             wordBreak: "break-word",
                           }}
@@ -1816,11 +1975,12 @@ function RentalContract() {
                         <div
                           style={{
                             marginBottom: "2px",
-                            fontSize: "12px",
+                            // TAILLE AJUSTÉE (était 12px)
+                            fontSize: "14px",
                             fontWeight: "bold",
                           }}
                         >
-                          بطاقة التعريف الوطنية أو جواز السفر رقم
+                          رقم بطاقة الوطنية أو جواز السفر
                         </div>
                         <div
                           style={{
@@ -1828,7 +1988,8 @@ function RentalContract() {
                             minHeight: "25px", // CORRECTION
                             paddingTop: "0", // CORRECTION
                             paddingBottom: "3px", // Ajouté
-                            fontSize: "12px",
+                            // TAILLE AJUSTÉE (était 12px)
+                            fontSize: "14px",
                           }}
                         >
                           {formData.autreConducteurCinAr || ""}
@@ -1838,7 +1999,8 @@ function RentalContract() {
                         <div
                           style={{
                             marginBottom: "2px",
-                            fontSize: "12px",
+                            // TAILLE AJUSTÉE (était 12px)
+                            fontSize: "14px",
                             fontWeight: "bold",
                           }}
                         >
@@ -1850,7 +2012,8 @@ function RentalContract() {
                             minHeight: "25px", // CORRECTION
                             paddingTop: "0", // CORRECTION
                             paddingBottom: "3px", // Ajouté
-                            fontSize: "12px",
+                            // TAILLE AJUSTÉE (était 12px)
+                            fontSize: "14px",
                           }}
                         >
                           {formData.autreConducteurPermisAr || ""}
@@ -1860,7 +2023,8 @@ function RentalContract() {
                         <div
                           style={{
                             marginBottom: "2px",
-                            fontSize: "12px",
+                            // TAILLE AJUSTÉE (était 12px)
+                            fontSize: "14px",
                             fontWeight: "bold",
                           }}
                         >
@@ -1872,7 +2036,8 @@ function RentalContract() {
                             minHeight: "25px", // CORRECTION
                             paddingTop: "0", // CORRECTION
                             paddingBottom: "3px", // Ajouté
-                            fontSize: "12px",
+                            // TAILLE AJUSTÉE (était 12px)
+                            fontSize: "14px",
                           }}
                         >
                           {formData.autreConducteurDelivreLeAr || ""}
@@ -1887,7 +2052,8 @@ function RentalContract() {
                     <div
                       style={{
                         marginBottom: "2px",
-                        fontSize: "12px",
+                        // TAILLE AJUSTÉE (était 12px)
+                        fontSize: "14px",
                         fontWeight: "bold",
                       }}
                     >
@@ -1899,7 +2065,8 @@ function RentalContract() {
                         minHeight: "25px", // CORRECTION
                         paddingTop: "0", // CORRECTION
                         paddingBottom: "3px", // Ajouté
-                        fontSize: "12px",
+                        // TAILLE AJUSTÉE (était 12px)
+                        fontSize: "14px",
                       }}
                     >
                       {formData.marqueVoitureAr || ""}
@@ -1931,7 +2098,8 @@ function RentalContract() {
                   style={{
                     fontWeight: "bold",
                     marginBottom: "8px",
-                    fontSize: "13px",
+                    // TAILLE AJUSTÉE (était 13px)
+                    fontSize: "15px",
                   }}
                 >
                   توقيع الزبون
@@ -1974,7 +2142,8 @@ function RentalContract() {
                     display: "grid",
                     gridTemplateColumns: "1fr 1fr",
                     gap: "12px",
-                    fontSize: "12px",
+                    // TAILLE AJUSTÉE (était 12px)
+                    fontSize: "14px",
                   }}
                 >
                   {/* French Dates */}
@@ -1984,7 +2153,8 @@ function RentalContract() {
                         style={{
                           marginBottom: "2px",
                           fontWeight: "bold",
-                          fontSize: "12px",
+                          // TAILLE AJUSTÉE (était 12px)
+                          fontSize: "14px",
                         }}
                       >
                         De
@@ -1995,7 +2165,8 @@ function RentalContract() {
                           minHeight: "25px", // CORRECTION
                           paddingTop: "0", // CORRECTION
                           paddingBottom: "3px", // Ajouté
-                          fontSize: "12px",
+                          // TAILLE AJUSTÉE (était 12px)
+                          fontSize: "14px",
                         }}
                       >
                         {formData.dateDe}
@@ -2006,7 +2177,8 @@ function RentalContract() {
                         style={{
                           marginBottom: "2px",
                           fontWeight: "bold",
-                          fontSize: "12px",
+                          // TAILLE AJUSTÉE (était 12px)
+                          fontSize: "14px",
                         }}
                       >
                         A
@@ -2017,7 +2189,8 @@ function RentalContract() {
                           minHeight: "25px", // CORRECTION
                           paddingTop: "0", // CORRECTION
                           paddingBottom: "3px", // Ajouté
-                          fontSize: "12px",
+                          // TAILLE AJUSTÉE (était 12px)
+                          fontSize: "14px",
                         }}
                       >
                         {formData.dateA}
@@ -2028,7 +2201,8 @@ function RentalContract() {
                         style={{
                           marginBottom: "2px",
                           fontWeight: "bold",
-                          fontSize: "12px",
+                          // TAILLE AJUSTÉE (était 12px)
+                          fontSize: "14px",
                         }}
                       >
                         Heure
@@ -2039,7 +2213,8 @@ function RentalContract() {
                           minHeight: "25px", // CORRECTION
                           paddingTop: "0", // CORRECTION
                           paddingBottom: "3px", // Ajouté
-                          fontSize: "12px",
+                          // TAILLE AJUSTÉE (était 12px)
+                          fontSize: "14px",
                         }}
                       >
                         {formData.heure}
@@ -2050,7 +2225,8 @@ function RentalContract() {
                         style={{
                           marginBottom: "2px",
                           fontWeight: "bold",
-                          fontSize: "12px",
+                          // TAILLE AJUSTÉE (était 12px)
+                          fontSize: "14px",
                         }}
                       >
                         Km
@@ -2061,7 +2237,8 @@ function RentalContract() {
                           minHeight: "25px", // CORRECTION
                           paddingTop: "0", // CORRECTION
                           paddingBottom: "3px", // Ajouté
-                          fontSize: "12px",
+                          // TAILLE AJUSTÉE (était 12px)
+                          fontSize: "14px",
                         }}
                       >
                         {formData.km}
@@ -2075,7 +2252,8 @@ function RentalContract() {
                         style={{
                           marginBottom: "2px",
                           fontWeight: "bold",
-                          fontSize: "12px",
+                          // TAILLE AJUSTÉE (était 12px)
+                          fontSize: "14px",
                         }}
                       >
                         من
@@ -2086,7 +2264,8 @@ function RentalContract() {
                           minHeight: "25px", // CORRECTION
                           paddingTop: "0", // CORRECTION
                           paddingBottom: "3px", // Ajouté
-                          fontSize: "12px",
+                          // TAILLE AJUSTÉE (était 12px)
+                          fontSize: "14px",
                         }}
                       >
                         {formData.dateDe}
@@ -2097,7 +2276,8 @@ function RentalContract() {
                         style={{
                           marginBottom: "2px",
                           fontWeight: "bold",
-                          fontSize: "12px",
+                          // TAILLE AJUSTÉE (était 12px)
+                          fontSize: "14px",
                         }}
                       >
                         إلى
@@ -2108,7 +2288,8 @@ function RentalContract() {
                           minHeight: "25px", // CORRECTION
                           paddingTop: "0", // CORRECTION
                           paddingBottom: "3px", // Ajouté
-                          fontSize: "12px",
+                          // TAILLE AJUSTÉE (était 12px)
+                          fontSize: "14px",
                         }}
                       >
                         {formData.dateA}
@@ -2119,7 +2300,8 @@ function RentalContract() {
                         style={{
                           marginBottom: "2px",
                           fontWeight: "bold",
-                          fontSize: "12px",
+                          // TAILLE AJUSTÉE (était 12px)
+                          fontSize: "14px",
                         }}
                       >
                         الساعة
@@ -2130,7 +2312,8 @@ function RentalContract() {
                           minHeight: "25px", // CORRECTION
                           paddingTop: "0", // CORRECTION
                           paddingBottom: "3px", // Ajouté
-                          fontSize: "12px",
+                          // TAILLE AJUSTÉE (était 12px)
+                          fontSize: "14px",
                         }}
                       >
                         {formData.heure}
@@ -2141,7 +2324,8 @@ function RentalContract() {
                         style={{
                           marginBottom: "2px",
                           fontWeight: "bold",
-                          fontSize: "12px",
+                          // TAILLE AJUSTÉE (était 12px)
+                          fontSize: "14px",
                         }}
                       >
                         الكيلومتراج
@@ -2152,7 +2336,8 @@ function RentalContract() {
                           minHeight: "25px", // CORRECTION
                           paddingTop: "0", // CORRECTION
                           paddingBottom: "3px", // Ajouté
-                          fontSize: "12px",
+                          // TAILLE AJUSTÉE (était 12px)
+                          fontSize: "14px",
                         }}
                       >
                         {formData.km}
@@ -2164,8 +2349,10 @@ function RentalContract() {
             </div> {/* FIN du Footer du PDF */}
           </div> {/* FIN du w-full du PDF */}
         </div> {/* FIN du PDF Preview */}
-      </div> {/* FIN du max-w-6xl mx-auto */}
-    </div> /* FIN du min-h-screen */
+      </div> 
+      </div>
+    
+    
   );
 }
 
