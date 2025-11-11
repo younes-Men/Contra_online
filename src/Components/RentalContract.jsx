@@ -4,9 +4,9 @@ import SignaturePad from "./SignaturePad";
 import jsPDF from "jspdf";
 import html2canvas from "html2canvas";
 
-// Import des images fixes (assurez-vous que ces chemins sont corrects)
-import image1 from "../images/image1.png";
-import image2 from "../images/image2.png";
+// Import du logo uniquement (les autres images sont supprimées)
+import Logo from "../images/Logo.png"
+
 
 function RentalContract() {
   const [formData, setFormData] = useState({
@@ -42,9 +42,13 @@ function RentalContract() {
     dateA: "",
     heure: "",
     km: "",
-    marqueVoiture: "",
-    marqueVoitureAr: "",
-    // SUPPRIMÉ: les champs image1 et image2 car nous utilisons des images fixes
+    // Nouveaux champs pour la section Voiture
+    marque: "",
+    matricule: "",
+    carburant: "",
+    marqueAr: "",
+    matriculeAr: "",
+    carburantAr: "",
   });
 
   const [signature, setSignature] = useState(null);
@@ -149,23 +153,25 @@ function RentalContract() {
                   display: "flex",
                   border: "1px solid black",
                   width: "fit-content",
+                  alignItems: "center", // Centrage vertical pour l'input
                 }}
               >
                 <div
                   style={{
                     borderRight: "1px solid black",
-                    padding: "4px 8px",
-                    fontSize: "10px",
+                    padding: "4px 8px", // RÉTROGRADATION TAILLE: Rendu plus petit
+                    fontSize: "10px", // RÉTROGRADATION TAILLE: Rendu plus petit
                     fontWeight: "bold",
+                    whiteSpace: "nowrap", // EMPÊCHE LE RETOUR À LA LIGNE
                   }}
                 >
                   Numéro Réservation
                 </div>
                 <div
                   style={{
-                    padding: "4px 8px",
-                    minWidth: "30px",
-                    fontSize: "10px",
+                    padding: "4px 8px", // RÉTROGRADATION TAILLE: Rendu plus petit
+                    minWidth: "40px", // RÉTROGRADATION TAILLE: Rendu plus petit
+                    fontSize: "10px", // RÉTROGRADATION TAILLE: Rendu plus petit
                     textAlign: "center",
                   }}
                 >
@@ -182,11 +188,28 @@ function RentalContract() {
                       textAlign: "center",
                       fontSize: "10px",
                       background: "transparent",
+                      padding: "0", // Garder le padding de l'input à 0 pour le centrage
                     }}
                   />
                 </div>
               </div>
             </div>
+
+            {/* DEBUT MODIFICATION LOGO - VISIBLE COMPONENT (AGRANDI ET CENTRÉ) */}
+            <div className="flex justify-center mb-4">
+              <img
+                src={Logo}
+                alt="logo"
+                style={{
+                  maxWidth: "200px", // Agrandir le logo
+                  height: "auto",
+                  display: "block",
+                }}
+                className="h-auto w-32" // Cette classe Tailwind peut être ignorée si maxWidth est défini directement
+              />
+            </div>
+            {/* FIN MODIFICATION LOGO - VISIBLE COMPONENT */}
+
 
             {/* Titre */}
             <div className="text-center mb-4">
@@ -203,132 +226,57 @@ function RentalContract() {
               </h1>
             </div>
 
-            {/* NOUVELLE STRUCTURE RESPONSIVE POUR L'ALIGNEMENT DES INFOS ET DES IMAGES */}
+            {/* Company Info - TOUJOURS EN HAUT ET CENTRÉ (Les images latérales ont été supprimées) */}
             <div
-              className="flex flex-col gap-4" // Le conteneur principal est en colonne (mobile et desktop)
+              className="mb-4"
               style={{
-                marginTop: "10px",
+                textAlign: "center",
+                flexGrow: 1,
+                maxWidth: "400px",
+                margin: "0 auto", // Centre le bloc
+                width: "100%",
               }}
             >
-              {/* 1. Company Info - TOUJOURS EN HAUT ET CENTRÉ */}
-              <div
-                className="mb-4"
+              <h2
                 style={{
+                  fontSize: "20px",
+                  fontWeight: "bold",
+                  textDecoration: "underline",
+                  marginBottom: "6px",
                   textAlign: "center",
-                  flexGrow: 1,
-                  maxWidth: "400px",
-                  margin: "0 auto", // Centre le bloc
-                  width: "100%",
                 }}
               >
-                <h2
-                  style={{
-                    fontSize: "20px",
-                    fontWeight: "bold",
-                    textDecoration: "underline",
-                    marginBottom: "6px",
-                    textAlign: "center",
-                  }}
-                >
-                  MED CAR LUXE
-                </h2>
-                <p
-                  style={{
-                    fontSize: "12px",
-                    marginBottom: "8px",
-                    textAlign: "center",
-                  }}
-                >
-                  Location De Voiture
-                </p>
-                <div
-                  style={{
-                    fontSize: "13px",
-                    textAlign: "center",
-                    lineHeight: "1.8",
-                    marginTop: "4px",
-                  }}
-                >
-                  <p style={{ marginBottom: "3px" }}>
-                    Numéro/Whatsapp: 0649491043 ; 0631913770
-                  </p>
-                  <p style={{ marginBottom: "3px" }}>
-                    Whatsapp: +44 7960 412207
-                  </p>
-                  <p>
-                    Adresse: Livraison dans tous les aéroports du Maroc
-                  </p>
-                </div>
-              </div>
-
-              {/* 2. Conteneur des Images - CÔTE À CÔTÉ MÊME SUR MOBILE */}
-              <div
-                className="flex items-center justify-between gap-4" // Utilise flex par défaut (row)
+                MED CAR LUXE
+              </h2>
+              <p
                 style={{
-                  width: "100%",
+                  fontSize: "12px",
+                  marginBottom: "8px",
+                  textAlign: "center",
                 }}
               >
-                {/* Image 1 - Gauche */}
-                <div
-                  style={{
-                    width: "120px",
-                    height: "80px",
-                    border: "2px solid #e5e5e5",
-                    backgroundColor: "#f5f5f5",
-                    display: "flex",
-                    alignItems: "center",
-                    justifyContent: "center",
-                    fontSize: "9px",
-                    color: "#999",
-                    boxShadow: "0 2px 4px rgba(0,0,0,0.1)",
-                    position: "relative",
-                    overflow: "hidden",
-                  }}
-                >
-                  <img
-                    src={image1}
-                    alt="Voiture 1"
-                    style={{
-                      width: "100%",
-                      height: "100%",
-                      objectFit: "cover",
-                    }}
-                  />
-                </div>
-
-                {/* Ajout d'un div pour pousser les images aux extrémités (seulement si flex n'est pas utilisé) */}
-                <div style={{ flexGrow: 1 }}></div>
-
-                {/* Image 2 - Droite */}
-                <div
-                  style={{
-                    width: "120px",
-                    height: "80px",
-                    border: "2px solid #e5e5e5",
-                    backgroundColor: "#f5f5f5",
-                    display: "flex",
-                    alignItems: "center",
-                    justifyContent: "center",
-                    fontSize: "9px",
-                    color: "#999",
-                    boxShadow: "0 2px 4px rgba(0,0,0,0.1)",
-                    position: "relative",
-                    overflow: "hidden",
-                  }}
-                >
-                  <img
-                    src={image2}
-                    alt="Voiture 2"
-                    style={{
-                      width: "100%",
-                      height: "100%",
-                      objectFit: "cover",
-                    }}
-                  />
-                </div>
+                Location De Voiture
+              </p>
+              <div
+                style={{
+                  fontSize: "13px",
+                  textAlign: "center",
+                  lineHeight: "1.8",
+                  marginTop: "4px",
+                }}
+              >
+                <p style={{ marginBottom: "3px" }}>
+                  Numéro/Whatsapp: 0649491043 ; 0631913770
+                </p>
+                <p style={{ marginBottom: "3px" }}>
+                  Whatsapp: +44 7960 412207
+                </p>
+                <p>
+                  Adresse: Livraison dans tous les aéroports du Maroc
+                </p>
               </div>
             </div>
-            {/* FIN de la NOUVELLE STRUCTURE */}
+            {/* FIN de Company Info */}
           </div>
 
           {/* Main Content - Two Columns */}
@@ -422,7 +370,7 @@ function RentalContract() {
                   </div>
                   <div>
                     <div style={{ marginBottom: "2px" }}>
-                      C.I.N ou Num passeport 
+                      C.I.N ou Num passeport
                     </div>
                     <input
                       type="text"
@@ -463,7 +411,7 @@ function RentalContract() {
                   <div>
                     <div style={{ marginBottom: "2px" }}>Délivré le</div>
                     <input
-                      type="date"
+                      type="text" // MODIFIÉ
                       name="delivreLe"
                       value={formData.delivreLe}
                       onChange={handleInputChange}
@@ -499,7 +447,7 @@ function RentalContract() {
                     }}
                   >
                     {/* CORRECTION: nom de l'input pour le nom */}
-                    <div> 
+                    <div>
                       <div style={{ marginBottom: "2px" }}>Nom </div>
                       <input
                         type="text"
@@ -559,7 +507,7 @@ function RentalContract() {
                     </div>
                     <div>
                       <div style={{ marginBottom: "2px" }}>
-                        Num Permis de conduit 
+                        Num Permis de conduit
                       </div>
                       <input
                         type="text"
@@ -580,7 +528,7 @@ function RentalContract() {
                     <div>
                       <div style={{ marginBottom: "2px" }}>Délivré le</div>
                       <input
-                        type="date"
+                        type="text" // MODIFIÉ
                         name="autreConducteurDelivreLe"
                         value={formData.autreConducteurDelivreLe}
                         onChange={handleInputChange}
@@ -598,26 +546,86 @@ function RentalContract() {
                   </div>
                 </div>
 
+                {/* NOUVELLE SECTION VOITURE - Français */}
                 <div style={{ marginTop: "16px" }}>
-                  <div>
-                    <div style={{ marginBottom: "2px" }}>Marque de voiture</div>
-                    <input
-                      type="text"
-                      name="marqueVoiture"
-                      value={formData.marqueVoiture}
-                      onChange={handleInputChange}
-                      style={{
-                        border: "none",
-                        borderBottom: "1px solid black",
-                        width: "100%",
-                        padding: "2px 0",
-                        fontSize: "10px",
-                        background: "transparent",
-                        outline: "none",
-                      }}
-                    />
+                  <h4
+                    style={{
+                      fontWeight: "bold",
+                      marginBottom: "8px",
+                      fontSize: "11px",
+                    }}
+                  >
+                    Voiture
+                  </h4>
+                  <div
+                    style={{
+                      display: "flex",
+                      flexDirection: "column",
+                      gap: "8px",
+                      fontSize: "10px",
+                    }}
+                  >
+                    {/* Marque */}
+                    <div>
+                      <div style={{ marginBottom: "2px" }}>Marque</div>
+                      <input
+                        type="text"
+                        name="marque"
+                        value={formData.marque}
+                        onChange={handleInputChange}
+                        style={{
+                          border: "none",
+                          borderBottom: "1px solid black",
+                          width: "100%",
+                          padding: "2px 0",
+                          fontSize: "10px",
+                          background: "transparent",
+                          outline: "none",
+                        }}
+                      />
+                    </div>
+                    {/* Matricule */}
+                    <div>
+                      <div style={{ marginBottom: "2px" }}>Matricule</div>
+                      <input
+                        type="text"
+                        name="matricule"
+                        value={formData.matricule}
+                        onChange={handleInputChange}
+                        style={{
+                          border: "none",
+                          borderBottom: "1px solid black",
+                          width: "100%",
+                          padding: "2px 0",
+                          fontSize: "10px",
+                          background: "transparent",
+                          outline: "none",
+                        }}
+                      />
+                    </div>
+                    {/* Carburant */}
+                    <div>
+                      <div style={{ marginBottom: "2px" }}>Carburant</div>
+                      <input
+                        type="text"
+                        name="carburant"
+                        value={formData.carburant}
+                        onChange={handleInputChange}
+                        style={{
+                          border: "none",
+                          borderBottom: "1px solid black",
+                          width: "100%",
+                          padding: "2px 0",
+                          fontSize: "10px",
+                          background: "transparent",
+                          outline: "none",
+                        }}
+                      />
+                    </div>
                   </div>
                 </div>
+                {/* FIN de NOUVELLE SECTION VOITURE - Français */}
+
               </div>
             </div>
             {/* Right column - Arabic */}
@@ -746,7 +754,7 @@ function RentalContract() {
                   <div>
                     <div style={{ marginBottom: "2px" }}>مسلمة في</div>
                     <input
-                      type="date"
+                      type="text" // MODIFIÉ
                       name="delivreLeAr"
                       value={formData.delivreLeAr}
                       onChange={handleInputChange}
@@ -804,7 +812,7 @@ function RentalContract() {
                       />
                     </div>
                     {/* ADRESSE: (Adresse Personnelle de l'autre conducteur) */}
-                    <div> 
+                    <div>
                       <div style={{ marginBottom: "2px" }}>العنوان الشخصي</div>
                       <input
                         type="text"
@@ -848,7 +856,7 @@ function RentalContract() {
                     </div>
                     <div>
                       <div style={{ marginBottom: "2px" }}>
-                        رخصة السياقة للشخص الأخر رقم
+                        رقم رخصة السياقة
                       </div>
                       <input
                         type="text"
@@ -870,7 +878,7 @@ function RentalContract() {
                     <div>
                       <div style={{ marginBottom: "2px" }}>مسلمة في</div>
                       <input
-                        type="date"
+                        type="text" // MODIFIÉ
                         name="autreConducteurDelivreLeAr"
                         value={formData.autreConducteurDelivreLeAr}
                         onChange={handleInputChange}
@@ -889,29 +897,90 @@ function RentalContract() {
                   </div>
                 </div>
 
+                {/* NOUVELLE SECTION VOITURE - Arabe */}
                 <div style={{ marginTop: "16px" }}>
-                  <div>
-                    <div style={{ marginBottom: "2px" }}>Marque de voiture</div>
-                    {/* ATTENTION: L'input ci-dessous utilise "marqueVoiture" (français) au lieu de "marqueVoitureAr" */}
-                    <input
-                      type="text"
-                      name="marqueVoitureAr"
-                      value={formData.marqueVoitureAr}
-                      onChange={handleInputChange}
-                      style={{
-                        border: "none",
-                        borderBottom: "1px solid black",
-                        width: "100%",
-                        padding: "2px 0",
-                        fontSize: "10px",
-                        background: "transparent",
-                        outline: "none",
-                      }}
-                      dir="rtl"
-                      lang="ar"
-                    />
+                  <h4
+                    style={{
+                      fontWeight: "bold",
+                      marginBottom: "8px",
+                      fontSize: "11px",
+                    }}
+                  >
+                    السيارة
+                  </h4>
+                  <div
+                    style={{
+                      display: "flex",
+                      flexDirection: "column",
+                      gap: "8px",
+                      fontSize: "10px",
+                    }}
+                  >
+                    {/* Marque (العلامة) */}
+                    <div>
+                      <div style={{ marginBottom: "2px" }}>النوع</div>
+                      <input
+                        type="text"
+                        name="marqueAr"
+                        value={formData.marqueAr}
+                        onChange={handleInputChange}
+                        style={{
+                          border: "none",
+                          borderBottom: "1px solid black",
+                          width: "100%",
+                          padding: "2px 0",
+                          fontSize: "10px",
+                          background: "transparent",
+                          outline: "none",
+                        }}
+                        dir="rtl"
+                        lang="ar"
+                      />
+                    </div>
+                    {/* Matricule (الترقيم) */}
+                    <div>
+                      <div style={{ marginBottom: "2px" }}>الترقيم</div>
+                      <input
+                        type="text"
+                        name="matriculeAr"
+                        value={formData.matriculeAr}
+                        onChange={handleInputChange}
+                        style={{
+                          border: "none",
+                          borderBottom: "1px solid black",
+                          width: "100%",
+                          padding: "2px 0",
+                          fontSize: "10px",
+                          background: "transparent",
+                          outline: "none",
+                        }}
+                        dir="rtl"
+                      />
+                    </div>
+                    {/* Carburant (نوع الوقود) */}
+                    <div>
+                      <div style={{ marginBottom: "2px" }}>نوع الوقود</div>
+                      <input
+                        type="text"
+                        name="carburantAr"
+                        value={formData.carburantAr}
+                        onChange={handleInputChange}
+                        style={{
+                          border: "none",
+                          borderBottom: "1px solid black",
+                          width: "100%",
+                          padding: "2px 0",
+                          fontSize: "10px",
+                          background: "transparent",
+                          outline: "none",
+                        }}
+                        dir="rtl"
+                        lang="ar"
+                      />
+                    </div>
                   </div>
                 </div>
+                {/* FIN de NOUVELLE SECTION VOITURE - Arabe */}
               </div>
             </div>
             {/* **FIN** du Main Content - Two Columns */}
@@ -989,7 +1058,7 @@ function RentalContract() {
                       De
                     </div>
                     <input
-                      type="date"
+                      type="text" // MODIFIÉ
                       name="dateDe"
                       value={formData.dateDe}
                       onChange={handleInputChange}
@@ -1009,7 +1078,7 @@ function RentalContract() {
                       A
                     </div>
                     <input
-                      type="date"
+                      type="text" // MODIFIÉ
                       name="dateA"
                       value={formData.dateA}
                       onChange={handleInputChange}
@@ -1072,7 +1141,7 @@ function RentalContract() {
                       من
                     </div>
                     <input
-                      type="date"
+                      type="text" // MODIFIÉ
                       name="dateDe"
                       value={formData.dateDe}
                       onChange={handleInputChange}
@@ -1093,7 +1162,7 @@ function RentalContract() {
                       إلى
                     </div>
                     <input
-                      type="date"
+                      type="text" // MODIFIÉ
                       name="dateA"
                       value={formData.dateA}
                       onChange={handleInputChange}
@@ -1167,6 +1236,7 @@ function RentalContract() {
           </div>
         </div> {/* FIN du Contrat visible avec formulaire intégré */}
 
+
         {/* PDF Preview */}
         <div
           ref={contractRef}
@@ -1178,7 +1248,7 @@ function RentalContract() {
             padding: "20mm 15mm",
             fontFamily: "Arial, sans-serif",
             // AUGMENTATION DE LA TAILLE DE BASE (était 11px)
-            fontSize: "16x", 
+            fontSize: "16x",
             lineHeight: "1.4",
           }}
         >
@@ -1186,55 +1256,79 @@ function RentalContract() {
             <div className="mb-6">
               {/* *** MODIFICATION : Numéro Réservation (Version PDF - Styles uniformisés) *** */}
               <div
-                className="mb-4"
-                style={{ display: "flex", justifyContent: "flex-start" }}
+              className="mb-4"
+              style={{ display: "flex", justifyContent: "flex-start" }}
+            >
+              <div
+                style={{
+                  display: "flex",
+                  border: "1px solid black",
+                  width: "fit-content",
+                  alignItems: "center", // Centrage vertical pour l'input
+                }}
               >
                 <div
                   style={{
-                    display: "flex",
-                    border: "1px solid black",
-                    width: "fit-content",
-                    // TAILLE AJOUTÉE POUR UN MEILLEUR RENDU DANS LE PDF
-                    fontSize: "14px", 
+                    borderRight: "1px solid black",
+                    padding: "0 2px 5px 2px", // RÉTROGRADATION TAILLE: Rendu plus petit
+                    fontSize: "13px", // RÉTROGRADATION TAILLE: Rendu plus petit
+                    fontWeight: "bold",
+                    whiteSpace: "nowrap", // EMPÊCHE LE RETOUR À LA LIGNE
                   }}
                 >
-                  <div
+                  Numéro Réservation
+                </div>
+                <div
+                  style={{
+                    padding: "4px 8px", // RÉTROGRADATION TAILLE: Rendu plus petit
+                    minWidth: "40px", // RÉTROGRADATION TAILLE: Rendu plus petit
+                    fontSize: "10px", // RÉTROGRADATION TAILLE: Rendu plus petit
+                    textAlign: "center",
+                  }}
+                >
+                  <input
+                    type="text"
+                    name="reservationNumber"
+                    value={formData.reservationNumber}
+                    onChange={handleInputChange}
+                    readOnly
                     style={{
-                      borderRight: "1px solid black",
-                      padding: "4px 8px",
-                      // TAILLE AJUSTÉE (était 12px)
-                      fontSize: "14px", 
-                      fontWeight: "bold",
-                    }}
-                  >
-                    Numéro Réservation
-                  </div>
-                  {/* Bloc pour afficher la valeur dans le PDF (simule l'input) */}
-                  <div
-                    style={{
-                      padding: "4px 8px",
-                      width: "100px",
-                      minHeight: "35px", // ✅ NOUVEAU: Hauteur minimale pour centrage vertical
-                      fontSize: "14px",
+                      border: "none",
+                      outline: "none",
+                      width: "100%",
                       textAlign: "center",
-                      // Styles pour centrage vertical et horizontal
-                      display: "flex", 
-                      alignItems: "center", // Centrage vertical
-                      justifyContent: "center", // Centrage horizontal
+                      fontSize: "10px",
+                      background: "transparent",
+                      padding: "0", // Garder le padding de l'input à 0 pour le centrage
                     }}
-                  >
-                    {formData.reservationNumber || ""}
-                  </div>
+                  />
                 </div>
               </div>
-              {/* *** FIN DE LA MODIFICATION *** */}
+            </div>
+              {/* Fin de Numéro Réservation (Version PDF) */}
+
+              {/* DEBUT MODIFICATION LOGO - PDF COMPONENT (AJOUTÉ, AGRANDI ET CENTRÉ) */}
+              <div className="text-center mb-4" style={{ margin: "15px 0" }}>
+                <img
+                  src={Logo}
+                  alt="logo"
+                  style={{
+                    maxWidth: "200px", // Agrandir le logo pour le PDF
+                    height: "auto",
+                    display: "block",
+                    margin: "0 auto" // Centrage
+                  }}
+                />
+              </div>
+              {/* FIN MODIFICATION LOGO - PDF COMPONENT */}
 
 
+              {/* Titre */}
               <div className="text-center mb-4">
                 <h1
                   style={{
-                    // TAILLE AJUSTÉE (était 22px)
-                    fontSize: "26px", 
+                    // TAILLE AJUSTÉE (était 18px)
+                    fontSize: "20px",
                     fontWeight: "bold",
                     textTransform: "uppercase",
                     marginBottom: "12px",
@@ -1245,123 +1339,61 @@ function RentalContract() {
                 </h1>
               </div>
 
-              {/* NOUVELLE STRUCTURE POUR LE PDF - Header (Alignement Horizontal) */}
+              {/* Company Info - (Les images latérales ont été supprimées du PDF également) */}
               <div
-                className="flex items-start justify-between gap-4"
+                className="mb-4"
                 style={{
-                  width: "100%",
-                  marginTop: "10px",
-                  display: "flex", /* Assure le flex pour html2canvas */
-                  justifyContent: "space-between", /* Pour espacer les trois colonnes */
-                  alignItems: "flex-start",
+                  textAlign: "center",
+                  flexGrow: 1,
+                  maxWidth: "500px",
+                  margin: "0 auto", // Centre le bloc
+                  width: "auto",
                 }}
               >
-                {/* Image 1 - Gauche */}
-                <div
+                <h2
                   style={{
-                    width: "120px",
-                    height: "80px",
-                    border: "2px solid #e5e5e5",
-                    backgroundColor: "#f5f5f5",
-                    display: "flex",
-                    alignItems: "center",
-                    justifyContent: "center",
-                    boxShadow: "0 2px 4px rgba(0,0,0,0.1)",
-                    fontSize: "11px", 
-                    overflow: "hidden",
-                  }}
-                >
-                  <img
-                    src={image1}
-                    alt="Voiture 1"
-                    style={{
-                      width: "100%",
-                      height: "100%",
-                      objectFit: "cover",
-                    }}
-                  />
-                </div>
-
-                {/* Company Info - Centre */}
-                <div
-                  className="mb-4"
-                  style={{
+                    // TAILLE AJUSTÉE (était 20px)
+                    fontSize: "28px",
+                    fontWeight: "bold",
+                    textDecoration: "underline",
+                    marginBottom: "6px",
                     textAlign: "center",
-                    flexGrow: 1,
-                    maxWidth: "500px",
-                    margin: "0 20px",
-                    width: "auto",
                   }}
                 >
-                  <h2
-                    style={{
-                      fontSize: "28px", 
-                      fontWeight: "bold",
-                      textDecoration: "underline",
-                      marginBottom: "6px",
-                      textAlign: "center",
-                    }}
-                  >
-                    MED CAR LUXE
-                  </h2>
-                  <p
-                    style={{
-                      fontSize: "16px", 
-                      marginBottom: "8px",
-                      textAlign: "center",
-                    }}
-                  >
-                    Location De Voiture
-                  </p>
-                  <div
-                    style={{
-                      fontSize: "15px", 
-                      textAlign: "center", // ALIGNEMENT AU CENTRE POUR LE PDF
-                      lineHeight: "1.8",
-                      marginTop: "4px",
-                    }}
-                  >
-                    <p style={{ marginBottom: "3px" }}>
-                      Numéro/Whatsapp: 0649491043 ; 0631913770
-                    </p>
-                    <p style={{ marginBottom: "3px" }}>
-                      Whatsapp: +44 7960 412207
-                    </p>
-                    <p>Adresse: Livraison dans tous les aéroports du Maroc</p>
-                  </div>
-                </div>
-
-                {/* Image 2 - Droite */}
+                  MED CAR LUXE
+                </h2>
+                <p
+                  style={{
+                    // TAILLE AJUSTÉE (était 12px)
+                    fontSize: "16px",
+                    marginBottom: "8px",
+                    textAlign: "center",
+                  }}
+                >
+                  Location De Voiture
+                </p>
                 <div
                   style={{
-                    width: "120px",
-                    height: "80px",
-                    border: "2px solid #e5e5e5",
-                    backgroundColor: "#f5f5f5",
-                    display: "flex",
-                    alignItems: "center",
-                    justifyContent: "center",
-                    boxShadow: "0 2px 4px rgba(0,0,0,0.1)",
-                    fontSize: "11px",
-                    color: "#999", 
-                    overflow: "hidden",
+                    // TAILLE AJUSTÉE (était 13px)
+                    fontSize: "15px",
+                    textAlign: "center", // ALIGNEMENT AU CENTRE POUR LE PDF
+                    lineHeight: "1.8",
+                    marginTop: "4px",
                   }}
                 >
-                  <img
-                    src={image2}
-                    alt="Voiture 2"
-                    style={{
-                      width: "100%",
-                      height: "100%",
-                      objectFit: "cover",
-                    }}
-                  />
+                  <p style={{ marginBottom: "3px" }}>
+                    Numéro/Whatsapp: 0649491043 ; 0631913770
+                  </p>
+                  <p style={{ marginBottom: "3px" }}>
+                    Whatsapp: +44 7960 412207
+                  </p>
+                  <p>Adresse: Livraison dans tous les aéroports du Maroc</p>
                 </div>
               </div>
-              {/* FIN NOUVELLE STRUCTURE POUR LE PDF */}
-
+              {/* FIN de Company Info pour le PDF */}
             </div>
 
+            {/* Main Content - Two Columns (PDF) */}
             <div
               style={{
                 display: "grid",
@@ -1370,7 +1402,7 @@ function RentalContract() {
                 marginBottom: "20px",
               }}
             >
-              {/* Left column - French */}
+              {/* Left column - French (PDF) */}
               <div>
                 <h3
                   style={{
@@ -1385,7 +1417,6 @@ function RentalContract() {
                 </h3>
 
                 <div style={{ marginBottom: "16px" }}>
-                  
                   <div
                     style={{
                       display: "flex",
@@ -1404,7 +1435,7 @@ function RentalContract() {
                           fontWeight: "bold",
                         }}
                       >
-                        Locataire
+                        Nom de Locataire
                       </div>
                       <div
                         style={{
@@ -1566,7 +1597,7 @@ function RentalContract() {
                       }}
                     >
                       {/* NOUVEAU: Nom de l'autre conducteur (Français) */}
-                      <div> 
+                      <div>
                         <div
                           style={{
                             marginBottom: "2px",
@@ -1693,36 +1724,109 @@ function RentalContract() {
                       </div>
                     </div>
                   </div>
-                </div>
 
-                <div style={{ marginTop: "16px" }}>
-                  <div>
-                    <div
+                  {/* NOUVELLE SECTION VOITURE - Français (PDF) */}
+                  <div style={{ marginTop: "16px" }}>
+                    <h4
                       style={{
-                        marginBottom: "2px",
-                        // TAILLE AJUSTÉE (était 12px)
-                        fontSize: "14px",
                         fontWeight: "bold",
+                        marginBottom: "8px",
+                        // TAILLE AJUSTÉE (était 13px)
+                        fontSize: "15px",
                       }}
                     >
-                      Marque de voiture
-                    </div>
+                      Voiture
+                    </h4>
                     <div
                       style={{
-                        borderBottom: "1px solid black",
-                        minHeight: "25px", // CORRECTION
-                        paddingTop: "0", // CORRECTION
-                        paddingBottom: "3px", // Ajouté
+                        display: "flex",
+                        flexDirection: "column",
+                        gap: "8px",
                         // TAILLE AJUSTÉE (était 12px)
                         fontSize: "14px",
                       }}
                     >
-                      {formData.marqueVoiture || ""}
+                      {/* Marque */}
+                      <div>
+                        <div
+                          style={{
+                            marginBottom: "2px",
+                            // TAILLE AJUSTÉE (était 12px)
+                            fontSize: "14px",
+                            fontWeight: "bold",
+                          }}
+                        >
+                          Marque
+                        </div>
+                        <div
+                          style={{
+                            borderBottom: "1px solid black",
+                            minHeight: "25px", // CORRECTION
+                            paddingTop: "0", // CORRECTION
+                            paddingBottom: "3px", // Ajouté
+                            // TAILLE AJUSTÉE (était 12px)
+                            fontSize: "14px",
+                          }}
+                        >
+                          {formData.marque || ""}
+                        </div>
+                      </div>
+                      {/* Matricule */}
+                      <div>
+                        <div
+                          style={{
+                            marginBottom: "2px",
+                            // TAILLE AJUSTÉE (était 12px)
+                            fontSize: "14px",
+                            fontWeight: "bold",
+                          }}
+                        >
+                          Matricule
+                        </div>
+                        <div
+                          style={{
+                            borderBottom: "1px solid black",
+                            minHeight: "25px", // CORRECTION
+                            paddingTop: "0", // CORRECTION
+                            paddingBottom: "3px", // Ajouté
+                            // TAILLE AJUSTÉE (était 12px)
+                            fontSize: "14px",
+                          }}
+                        >
+                          {formData.matricule || ""}
+                        </div>
+                      </div>
+                      {/* Carburant */}
+                      <div>
+                        <div
+                          style={{
+                            marginBottom: "2px",
+                            // TAILLE AJUSTÉE (était 12px)
+                            fontSize: "14px",
+                            fontWeight: "bold",
+                          }}
+                        >
+                          Carburant
+                        </div>
+                        <div
+                          style={{
+                            borderBottom: "1px solid black",
+                            minHeight: "25px", // CORRECTION
+                            paddingTop: "0", // CORRECTION
+                            paddingBottom: "3px", // Ajouté
+                            // TAILLE AJUSTÉE (était 12px)
+                            fontSize: "14px",
+                          }}
+                        >
+                          {formData.carburant || ""}
+                        </div>
+                      </div>
                     </div>
                   </div>
+                  {/* FIN de NOUVELLE SECTION VOITURE - Français (PDF) */}
                 </div>
               </div>
-
+              {/* Right column - Arabic (PDF) */}
               <div dir="rtl" style={{ textAlign: "right" }}>
                 <h3
                   style={{
@@ -1737,7 +1841,6 @@ function RentalContract() {
                 </h3>
 
                 <div style={{ marginBottom: "16px" }}>
-                  
                   <div
                     style={{
                       display: "flex",
@@ -2047,42 +2150,116 @@ function RentalContract() {
                   </div>
                 </div>
 
+                {/* NOUVELLE SECTION VOITURE - Arabe (PDF) */}
                 <div style={{ marginTop: "16px" }}>
-                  <div>
-                    <div
-                      style={{
-                        marginBottom: "2px",
-                        // TAILLE AJUSTÉE (était 12px)
-                        fontSize: "14px",
-                        fontWeight: "bold",
-                      }}
-                    >
-                      Marque de voiture
+                  <h4
+                    style={{
+                      fontWeight: "bold",
+                      marginBottom: "8px",
+                      // TAILLE AJUSTÉE (était 13px)
+                      fontSize: "15px",
+                    }}
+                  >
+                    السيارة
+                  </h4>
+                  <div
+                    style={{
+                      display: "flex",
+                      flexDirection: "column",
+                      gap: "8px",
+                      // TAILLE AJUSTÉE (était 12px)
+                      fontSize: "14px",
+                    }}
+                  >
+                    {/* Marque (العلامة) */}
+                    <div>
+                      <div
+                        style={{
+                          marginBottom: "2px",
+                          // TAILLE AJUSTÉE (était 12px)
+                          fontSize: "14px",
+                          fontWeight: "bold",
+                        }}
+                      >
+                        النوع
+                      </div>
+                      <div
+                        style={{
+                          borderBottom: "1px solid black",
+                          minHeight: "25px", // CORRECTION
+                          paddingTop: "0", // CORRECTION
+                          paddingBottom: "3px", // Ajouté
+                          // TAILLE AJUSTÉE (était 12px)
+                          fontSize: "14px",
+                        }}
+                      >
+                        {formData.marqueAr || ""}
+                      </div>
                     </div>
-                    <div
-                      style={{
-                        borderBottom: "1px solid black",
-                        minHeight: "25px", // CORRECTION
-                        paddingTop: "0", // CORRECTION
-                        paddingBottom: "3px", // Ajouté
-                        // TAILLE AJUSTÉE (était 12px)
-                        fontSize: "14px",
-                      }}
-                    >
-                      {formData.marqueVoitureAr || ""}
+                    {/* Matricule (الترقيم) */}
+                    <div>
+                      <div
+                        style={{
+                          marginBottom: "2px",
+                          // TAILLE AJUSTÉE (était 12px)
+                          fontSize: "14px",
+                          fontWeight: "bold",
+                        }}
+                      >
+                        الترقيم
+                      </div>
+                      <div
+                        style={{
+                          borderBottom: "1px solid black",
+                          minHeight: "25px", // CORRECTION
+                          paddingTop: "0", // CORRECTION
+                          paddingBottom: "3px", // Ajouté
+                          // TAILLE AJUSTÉE (était 12px)
+                          fontSize: "14px",
+                        }}
+                      >
+                        {formData.matriculeAr || ""}
+                      </div>
+                    </div>
+                    {/* Carburant (نوع الوقود) */}
+                    <div>
+                      <div
+                        style={{
+                          marginBottom: "2px",
+                          // TAILLE AJUSTÉE (était 12px)
+                          fontSize: "14px",
+                          fontWeight: "bold",
+                        }}
+                      >
+                        نوع الوقود
+                      </div>
+                      <div
+                        style={{
+                          borderBottom: "1px solid black",
+                          minHeight: "25px", // CORRECTION
+                          paddingTop: "0", // CORRECTION
+                          paddingBottom: "3px", // Ajouté
+                          // TAILLE AJUSTÉE (était 12px)
+                          fontSize: "14px",
+                        }}
+                      >
+                        {formData.carburantAr || ""}
+                      </div>
                     </div>
                   </div>
                 </div>
+                {/* FIN de NOUVELLE SECTION VOITURE - Arabe (PDF) */}
               </div>
             </div>
+            {/* **FIN** du Main Content - Two Columns (PDF) */}
 
-            {/* Footer - CORRECTION RESPONSIVE dans le PDF Preview (DOIT ETRE EN FLEX POUR LE PDF) */}
+            {/* Footer (PDF) */}
             <div
-              // Force display: flex et largeurs pour la mise en page A4 (desktop-like)
               style={{
                 display: "flex",
                 justifyContent: "space-between",
                 alignItems: "flex-end",
+                gap: "30px",
                 marginTop: "30px",
               }}
             >
@@ -2349,10 +2526,10 @@ function RentalContract() {
             </div> {/* FIN du Footer du PDF */}
           </div> {/* FIN du w-full du PDF */}
         </div> {/* FIN du PDF Preview */}
-      </div> 
       </div>
-    
-    
+      </div>
+
+
   );
 }
 
